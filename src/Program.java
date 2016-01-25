@@ -1,63 +1,75 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 public class Program {
 
-	public static int binarySearch(int[] arr,int hi,int lo,int num) {
-		
-		if (lo > hi) {
-			
-			return -1;
-		}
-		
-		int mid = (hi + lo) / 2;
-		
-		if (arr[mid] == num){
-			
-			return mid;
-		}
-		else if (arr[mid] > num) {
-			
-			hi = mid;
-			return binarySearch(arr,hi-1,lo,num);
-		}
-		//arr[mid] < num
-		else {
-			lo = mid;
-			return binarySearch(arr,hi,lo+1,num);
-		}
-	}
-	public static int linearSearch(int[] arr,int num) {
-		
-		System.out.println("Array Size: " + arr.length);
+	public static int b_search(int[] A, int t) {
+
+		int lo = 0;
+		int hi = A.length - 1;
 
 		int count = 0;
-		for (int i = 0;i < arr.length;i++) {
-
+		while (lo <= hi) {
 			count++;
-			if (arr[i] == num) {
-				System.out.println("Number of cmp: " + count);
-				return i;
+			int choice = (lo + hi) / 2;
+			if (A[choice] == t) {
+				return choice;
+			} else if (A[choice] > t) {
+				hi = choice - 1;
+			} else {
+				lo = choice + 1;
 			}
 		}
-		System.out.println("Number of cmp: " + count);
+		System.out.println(count);
 		return -1;
-		
+	}
 
+	public static void run() {
+		
+		int input_size = 5000;
+		ArrayList<Integer> arr = new ArrayList<Integer>();
+		Random random = new Random();
+		
+		for (int i = 0; i < input_size; i++) {
+
+			arr.add(random.nextInt());
+
+		}
+		Collections.sort(arr);
+
+		for (int i = 0; i < input_size; i++) {
+			//generate a random number in the array
+			int bound = random.nextInt(arr.get(arr.size()-1));
+			System.out.println(Search.binarySearch(arr, arr.size()-1, 0, bound));
+
+		}
 	}
 	public static void main(String[] args) {
 		
-		Test worst_case = new Test(new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26},"worst case");
-		Test best_case = new Test(new int[]{5},"best case");
-		Test test_case = new Test(new int[]{1,2,3,4,5},"test case");
+		Random random = new Random();
+		List<Integer> list = 
+				random
+				  .ints(9)
+				  .boxed()
+				  .collect(Collectors.toList());
 		
 		
-		System.out.println("Linear Search: ");
-		linearSearch(worst_case.data,5);
-		System.out.println("Linear Search: ");
-		linearSearch(best_case.data,5);
-		System.out.println("Binary Search: ");
-		binarySearch(test_case.data,test_case.data.length-1,0,3);
+	
+		list
+		  .stream()
+		  .filter(n -> n % 2 == 0)
+		  .forEach(System.out::println);
+
+		list
+			.stream()
+			.map(n -> n * 2)
+			.forEach(System.out::println);
 		
 		
+		  
 	}
 
 }
